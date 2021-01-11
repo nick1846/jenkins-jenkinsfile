@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('1-Build') {
+            steps {
+                echo "Start of Stage Build"
+				echo "Building......."
+				git credentialsId: 'id_github', url: 'git@github.com:nick1846/jenkins-docker-compose.git'
+				echo "End of Stage Build"
+            }
+        }
+        stage ('2-Approval') {
+        input {
+            message "Do you want to proceed for production deployment?"
+            }
+            steps {
+                sh 'echo "Deploy into Prod"'
+            }
+        }
+        stage('3-Deploy') {
+            steps {
+                echo "Start of Stage Deploy"
+				echo "Deploying......."
+				sshPublisher(publishers: [sshPublisherDesc(configName: 'prod-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker-compose up -d', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.yml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+				echo "End of Stage Build"
+            }
+        }
+    }
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        }
+    }
+        
+	
+}
