@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
             CHAT_ID = 'telegramChatId'
-
+    }
     stages {
         stage('1-Clone') {
             steps {
