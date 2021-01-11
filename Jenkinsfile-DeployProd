@@ -16,12 +16,12 @@ pipeline {
             }
 	}
         stage ('3-Approval') {	
-	options {	      
-               timeout(time: 120, unit: 'SECONDS') 
-	}
-	input {
+	#options {	      
+        #       timeout(time: 120, unit: 'SECONDS') 
+	#}
+	    input {
 	        message "Do you want to proceed for production deployment?"	      
-	}  
+	    }  
 	}     
         stage('4-Deploy to Prod') {
             steps {
