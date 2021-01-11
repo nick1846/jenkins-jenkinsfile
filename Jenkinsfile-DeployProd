@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    environment {
-            CHAT_ID = 'telegramChatId'
-    }
+   
     stages {
         stage('1-Clone') {
             steps {
@@ -15,7 +13,7 @@ pipeline {
 	stage ('2-Notification') {
 	    steps {
 	        script { withCredentials([string(credentialsId: 'telegramToken'), string(credentialsId: 'telegramChatId')]) { 
-		    telegramSend(messsage: 'test message', chatId: ${CHAT_ID})}
+		    telegramSend(messsage: 'test message', chatId: 84473677)}
 		}
             }
 	}
