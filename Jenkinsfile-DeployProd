@@ -12,8 +12,7 @@ pipeline {
         }
 	stage ('2-Notification') {
 	    steps {
-	        script { withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'), string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) { 
-		    telegramSend(message: 'test message', chatId: 84473677)}
+	        sh 'curl -s -X POST https://api.telegram.org/bot1576410505:AAG3w7VT2Mj-i_715aaiAERzTHtdRUhEBt4/sendMessage -d chat_id=84473677-d text="your message"'
 		}
             }
 	}
