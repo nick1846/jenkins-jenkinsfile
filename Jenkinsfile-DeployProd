@@ -10,12 +10,14 @@ pipeline {
 		echo "End of Stage Clone"
             }
         }
-        stage ('2-Approval') {
+	stage ('2-Notification') {
 	    steps {
 	        script { withCredentials([string(credentialsId: ‘telegramToken’, variable: ‘TOKEN’), string(credentialsId: ‘telegramChatId’, variable: ‘CHAT_ID’)]) {
                     telegramSend(message: 'test message', chatId: ${CHAT_ID})}		    
 		}
             }
+	}
+        stage ('3-Approval') {	    
 	options {
             timeout(time: 120, unit: 'SECONDS') 
         }
@@ -23,7 +25,7 @@ pipeline {
             message "Do you want to proceed for production deployment?"
             }            
         }
-        stage('3-Deploy to Prod') {
+        stage('4-Deploy to Prod') {
             steps {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
