@@ -22,10 +22,10 @@ pipeline {
 	        options {
                    timeout(time: 120, unit: 'SECONDS') 
                 }
-                input {
-                   message "Do you want to proceed for production deployment?"
-                }
 	    }
+            input {
+                   message "Do you want to proceed for production deployment?"
+            }	    
         }
 	
         stage('4-Deploy to Prod') {
