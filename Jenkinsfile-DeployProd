@@ -12,7 +12,9 @@ pipeline {
         }
         stage ('2-Approval') {
 	    steps {
-	        telegramSend(message: 'Hello World', chatId: 1576410505)
+	        script{ withCredentials([string(credentialsId: ‘telegramToken’, variable: ‘TOKEN’), string(credentialsId: ‘telegramChatId’, variable: ‘CHAT_ID’)]) {
+                    telegramSend(messsage:”test message”,chatId:${CHAT_ID})
+		}
             }
 	options {
             timeout(time: 120, unit: 'SECONDS') 
