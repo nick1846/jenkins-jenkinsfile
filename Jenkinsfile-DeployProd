@@ -18,6 +18,7 @@ pipeline {
         stage ('3-Approval') {	
 	options {
         timeout(time: 30, unit: 'MINUTES') 
+	}
 	   input {
 	        message "Do you want to proceed for production deployment?"	      
 	   }  
