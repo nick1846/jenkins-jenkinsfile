@@ -12,8 +12,7 @@ pipeline {
         }
 	stage ('2-Notification') {
 	    steps {
-                    telegramSend(message: 'test message', chatId: 84473677)}		    
-		}
+                    telegramSend(message: 'test message', chatId: 84473677)		
             }
 	}
         stage ('3-Approval') {	    
