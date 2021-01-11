@@ -12,7 +12,9 @@ pipeline {
         }
 	stage ('2-Notification') {
 	    steps {
-                    telegramSend(message: 'test message', chatId: 84473677)		
+	        script { withCredentials([string(credentialsId: ‘telegramToken’, variable: ‘TOKEN’), string(credentialsId: ‘telegramChatId’, variable: ‘CHAT_ID’)]) { 
+		    telegramSend(messsage: 'test message', chatId: ${CHAT_ID})}
+		}
             }
 	}
         stage ('3-Approval') {	    
