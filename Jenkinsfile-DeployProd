@@ -12,7 +12,7 @@ pipeline {
         }
 	stage ('2-Notification') {
 	    steps {
-	        sh 'curl -s -X POST https://api.telegram.org/bot1576410505:AAG3w7VT2Mj-i_715aaiAERzTHtdRUhEBt4/sendMessage -d chat_id=84473677-d text="your message"'		
+	        sh '''curl -s -X POST https://api.telegram.org/bot1576410505:AAG3w7VT2Mj-i_715aaiAERzTHtdRUhEBt4/sendMessage -d chat_id=84473677-d text="your message"'''	
             }
 	}
         stage ('3-Approval') {	    
