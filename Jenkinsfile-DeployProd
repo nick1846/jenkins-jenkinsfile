@@ -15,14 +15,15 @@ pipeline {
 	        sh '''curl -i -X GET "https://api.telegram.org/bot1576410505:AAG3w7VT2Mj-i_715aaiAERzTHtdRUhEBt4/sendMessage?chat_id=-478072446&text=Deployment Approval, waiting time: 1 hour"'''	
             }
 	}
-        stage ('3-Approval') {	    
-	  options {
-              timeout(time: 120, unit: 'SECONDS') 
-        }	    
-          input {
-              message "Do you want to proceed for production deployment?"                
-        }
-	}
+        stage ('3-Approval') {	
+	    steps {	      
+              timeout(time: 120, unit: 'SECONDS') {
+	          input {
+                      message "Do you want to proceed for production deployment?"
+		  }
+	      }
+	    }  
+	 }     
         stage('4-Deploy to Prod') {
             steps {
                 echo "Start of Stage Deploy"
