@@ -2,28 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('1-Build') {
+        stage('1-Clone') {
             steps {
-                echo "Start of Stage Build"
-				echo "Building......."
-				git credentialsId: 'id_github', url: 'git@github.com:nick1846/jenkins-docker-compose.git'
-				echo "End of Stage Build"
+                echo "Start of Stage Clone"
+		echo "Cloning......."
+		git credentialsId: 'id_github', url: 'git@github.com:nick1846/jenkins-docker-compose.git'
+		echo "End of Stage Clone"
             }
         }
         stage('2-Test') {
             steps {
                 echo "Start of Stage Test"
-				echo "Testing......."
-				echo "End of Stage Build"
+		echo "Testing......."
+		echo "End of Stage Test"
             }
         }
-        stage('3-Deploy') {
+        stage('3-Deploy to Dev') {
             steps {
                 echo "Start of Stage Deploy"
-				echo "Deploying......."
-				sshPublisher(publishers: [sshPublisherDesc(configName: 'dev-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker-compose up -d', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.yml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-				echo "End of Stage Build"
+		echo "Deploying......."
+		sshPublisher(publishers: [sshPublisherDesc(configName: 'dev-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker-compose up -d', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.yml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+		echo "End of Stage Deploy"
             }
         }
-	}
+    }
 }
