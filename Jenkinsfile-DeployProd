@@ -11,15 +11,15 @@ pipeline {
             }
         }
         stage ('2-Approval') {
+	    steps {
+	        telegramSend(message: 'Hello World', chatId: 1576410505)
+            }
 	options {
             timeout(time: 120, unit: 'SECONDS') 
         }
         input {
             message "Do you want to proceed for production deployment?"
-            }
-            steps {
-	        telegramSend(message: 'Hello World', chatId: 1576410505)
-            }
+            }            
         }
         stage('3-Deploy to Prod') {
             steps {
