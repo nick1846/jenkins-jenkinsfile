@@ -16,11 +16,11 @@ pipeline {
             }
 	}
         stage ('3-Approval') {		
-	    input {
+	   input {
 	        message "Do you want to proceed for production deployment?"	      
-	    }  
+	   }  
 	}     
-        stage('4-Deploy to Prod') {
+        stage ('4-Deploy to Prod') {
             steps {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
