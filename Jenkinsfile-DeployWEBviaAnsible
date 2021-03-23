@@ -28,7 +28,7 @@ pipeline {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
 		dir('Ansible_Compose/Playbook') {
-			ansiblePlaybook become: true, colorized: true, credentialsId: 'id_webhost', disableHostKeyChecking: true, inventory: 'hosts', playbook: 'main.yaml'
+			ansiblePlaybook colorized: true, credentialsId: 'id_webhost', disableHostKeyChecking: true, inventory: 'hosts', playbook: 'main.yaml'
 			
 		}
 		echo "End of Stage Deploy"
