@@ -28,9 +28,8 @@ pipeline {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
 		dir('Ansible_Compose/Playbook') {
-			withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'id_webhost', keyFileVariable: 'MY_SSH_KEY')]) {
-				sh 'ansible-playbook -i hosts main.yaml -u ec2-user --private-key $MY_SSH_KEY'
-			}
+			ansiblePlaybook become: true, colorized: true, credentialsId: 'id_webhost', disableHostKeyChecking: true, inventory: 'hosts', playbook: 'main.yaml'
+			
 		}
 		echo "End of Stage Deploy"
             }
