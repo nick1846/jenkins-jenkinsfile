@@ -27,9 +27,9 @@ pipeline {
             steps {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
-		
-		ansiblePlaybook credentialsId: 'id_webhost', inventory: 'Ansible_Compose/Playbook/hosts', playbook: 'Ansible_Compose/Playbook/main.yaml'
-
+		dir('Ansible_Compose/Playbook') {
+			ansiblePlaybook credentialsId: 'id_webhost', inventory: 'hosts', playbook: 'main.yaml'
+		}
 		echo "End of Stage Deploy"
             }
         }
