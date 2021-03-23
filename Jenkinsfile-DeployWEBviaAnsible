@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo "Start of Stage Clone Ansible playbooks for Docker-compose"
 		echo "Cloning......."
-		dir('Ansible_Compose') {
+		dir('Ansible_Compose/Playbook') {
 			git credentialsId: 'id_github', url: 'https://github.com/nick1846/ansible-docker-compose.git'
 		}
 		dir('Ansible_Compose/Docker_Compose') {
@@ -28,7 +28,7 @@ pipeline {
                 echo "Start of Stage Deploy"
 		echo "Deploying......."
 		
-		ansiblePlaybook credentialsId: 'id_webhost', inventory: 'Ansible_Compose/hosts', playbook: 'Ansible_Compose/main.yaml'
+		ansiblePlaybook credentialsId: 'id_webhost', inventory: 'Ansible_Compose/Playbook/hosts', playbook: 'Ansible_Compose/Playbook/main.yaml'
 
 		echo "End of Stage Deploy"
             }
