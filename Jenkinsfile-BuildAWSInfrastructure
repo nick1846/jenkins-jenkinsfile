@@ -18,7 +18,7 @@ pipeline {
 	stage('2-Build AWS Infrastructure via Terraform') {
         	steps {	
 			echo "Start of Stage Build AWS Infrastructure via Terraform"
-			dir('Terraform Template') {
+			dir('Terraform_Template') {
          			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) {           				
             				sh '''               				 
                					terraform init
