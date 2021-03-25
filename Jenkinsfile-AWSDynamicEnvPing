@@ -1,1 +1,45 @@
+pipeline {
+    agent any
 
+    stages {
+        stage('1-Clone Ansible playbooks to check AWS inventory') {
+            steps {
+                echo "Start of Clone Ansible playbooks to check AWS inventory"
+		echo "Cloning......."
+		dir('Ansible_Dynamic_Inventory') {
+			git credentialsId: 'id_github', url: 'https://github.com/nick1846/ansible-dynamic-aws-inventory.git'
+		}				
+		echo "End of Stage Clone Ansible playbooks to check AWS inventory"
+            }
+        }
+        
+        stage('2-Set_AWS_Credentials') {
+            steps {
+                echo "Start of Stage Set_AWS_Credentials"
+                dir('Ansible_Dynamic_Inventory') {
+			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) { 
+                        sh ''' 
+                                export AWS_ACCESS_KEY_ID = $AWS_KEY
+                                export AWS_SECRET_ACCESS_KEY = $AWS_SECRET
+                        '''
+                        }
+		}			
+		echo "Exporting......."
+		echo "End of Stage Set_AWS_Credentials"
+            }
+        }
+        
+        stage('3-Ping AWS inventory') {
+            steps {
+                echo "Start of Stage Ping AWS inventory"
+		echo "Pinging......."
+		dir('Ansible_Dynamic_Inventory') {
+			withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'id_webhost', keyFileVariable: 'MY_SSH_KEY')]) {
+				sh 'ansible-playbook -i my_web_aws_ec2.yaml ping.yaml -u ec2-user --private-key $MY_SSH_KEY'
+			}
+		}
+		echo "End of Stage Ping AWS inventory"
+            }
+        }
+    }
+}
