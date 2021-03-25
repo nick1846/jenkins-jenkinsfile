@@ -29,6 +29,7 @@ pipeline {
         stage('3-Ping AWS inventory') {
             steps {
                 echo "Start of Stage Ping AWS inventory"
+		echo "Pinging......."
                 dir('Ansible_Dynamic_Inventory') {
 			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) { 
                         	withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'id_webhost', keyFileVariable: 'MY_SSH_KEY')]) {
@@ -41,7 +42,7 @@ pipeline {
 				}
 			}
 		}			
-		echo "Pinging......."
+		
 		echo "End of Stage Ping AWS inventory"
             }
         }        
