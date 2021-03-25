@@ -37,7 +37,7 @@ pipeline {
 					sh '''						
                               			export AWS_ACCESS_KEY_ID="$AWS_KEY"
                               			export AWS_SECRET_ACCESS_KEY="$AWS_SECRET"
-						ansible-playbook -i my_web_aws_ec2.yaml main.yaml -u ec2-user --private-key $MY_SSH_KEY -e 'ansible_python_interpreter="/usr/bin/python3"'
+						ansible-playbook -i my_web_aws_ec2.yaml main.yaml -u ec2-user --private-key $MY_SSH_KEY
 				        '''
 				}
 			}
