@@ -20,8 +20,8 @@ pipeline {
 			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) { 
                         sh '''
 				ansible-galaxy collection install amazon.aws
-				sudo pip3 install --user boto3
-				sudo pip3 install botocore
+				pip3 install --user boto3
+				pip3 install botocore
                                 export AWS_ACCESS_KEY_ID="$AWS_KEY"
                                 export AWS_SECRET_ACCESS_KEY="$AWS_SECRET"
                         '''
