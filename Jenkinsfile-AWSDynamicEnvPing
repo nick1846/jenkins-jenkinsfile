@@ -12,17 +12,28 @@ pipeline {
 		echo "End of Stage Clone Ansible playbooks to check AWS inventory"
             }
         }
-        
-        stage('2-Set_AWS_Credentials') {
+	
+	stage('2-Install requirements') {
             steps {
-                echo "Start of Stage Set_AWS_Credentials"
+                echo "Start of Stage Install requirements"
+		echo "Installing......."
+		sh '''
+			ansible-galaxy collection install amazon.aws
+			pip3 install --user boto3
+			pip3 install botocore
+		'''
+		echo "End of Stage Install requirements"
+            }
+        }
+        
+        stage('3-Ping AWS inventory') {
+            steps {
+                echo "Start of Stage Ping AWS inventory"
                 dir('Ansible_Dynamic_Inventory') {
 			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) { 
                         	withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'id_webhost', keyFileVariable: 'MY_SSH_KEY')]) {
 					sh '''
-						ansible-galaxy collection install amazon.aws
-						pip3 install --user boto3
-						pip3 install botocore
+						
                               			export AWS_ACCESS_KEY_ID="$AWS_KEY"
                               			export AWS_SECRET_ACCESS_KEY="$AWS_SECRET"
 						ansible-playbook -i my_web_aws_ec2.yaml ping.yaml -u ec2-user --private-key $MY_SSH_KEY
@@ -30,8 +41,8 @@ pipeline {
 				}
 			}
 		}			
-		echo "Exporting......."
-		echo "End of Stage Set_AWS_Credentials"
+		echo "Pinging......."
+		echo "End of Stage Ping AWS inventory"
             }
         }        
     }
