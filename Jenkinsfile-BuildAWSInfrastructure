@@ -25,7 +25,6 @@ pipeline {
                					terraform apply --auto-approve -var-file=values.tfvars -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET               				
             				'''				
 				}
-				}
 				withCredentials([usernamePassword(credentialsId: 'id_github_usr_psw', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         		sh '''
 						git add terraform.tfstate
