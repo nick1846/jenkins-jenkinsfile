@@ -19,6 +19,7 @@ pipeline {
                 echo "Start of Stage Install requirements"
 		echo "Installing......."
 		sh '''
+			docker pull nick1846/my-php:latest
 			ansible-galaxy collection install amazon.aws
 			pip3 install --user boto3
 			pip3 install botocore
