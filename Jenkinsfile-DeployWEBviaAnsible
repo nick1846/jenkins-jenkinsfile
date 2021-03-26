@@ -13,20 +13,7 @@ pipeline {
 		echo "End of Stage Clone Ansible playbooks for Docker-compose"
             }
         }
-	
-        stage('2-Install requirements') {
-            steps {
-                echo "Start of Stage Install requirements"
-		echo "Installing......."
-		sh '''
-			docker pull nick1846/my-php:latest
-			ansible-galaxy collection install amazon.aws
-			pip3 install --user boto3
-			pip3 install botocore
-		'''
-		echo "End of Stage Install requirements"
-            }
-        }
+      
 	
         stage('3-Deploy Webhost') {
             steps {
