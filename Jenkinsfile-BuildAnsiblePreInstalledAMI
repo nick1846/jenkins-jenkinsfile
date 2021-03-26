@@ -1,1 +1,38 @@
+pipeline {
+    
+    agent any
+
+    stages {
+    	stage('1-Clone Packer Template and Ansible Playbooks') {
+        	steps {
+                	echo "Start of Stage Clone Packer Template and Ansible Playbooks"
+			echo "Cloning.................................."
+			dir('Packer_Template') {
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/packer-awx-ami.git'
+			}
+			dir('Linux_Users_Role') {	
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/linux-users-role.git'
+			}
+			dir('AWX_Configure_Tower') {	
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/awx-configure-tower.git'
+			}
+			echo "End of Stage Clone Packer Template and Ansible Playbooks"
+            }
+        }
+	
+	stage('2-Create AWS AMI using Packer') {
+        	steps { 
+	       		echo "Start of Stage Create AWS AMI using Packer"
+			echo "Creating................................."
+          		withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) {
+            			dir('Packer_Template') {                
+                    			sh ('/usr/local/bin/packer build -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET awx_ami.pkr.hcl')
+				}
+        		}
+			echo "End of stage Create AWS AMI using Packer"
+     		}
+   	}  	
+    }
+}
+
 
