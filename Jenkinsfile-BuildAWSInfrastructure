@@ -26,6 +26,14 @@ pipeline {
             				'''				
 				}
 			}
+		}
+	}	
+			
+	stage('3-Update GitHub repository if terraform.tfstate changed') {
+		when {
+                	changeset "terraform.tfstate"
+                }
+        	steps {	
 			dir('Terraform_Template') {
 				withCredentials([usernamePassword(credentialsId: 'id_github_usr_psw', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         		sh '''
@@ -36,7 +44,7 @@ pipeline {
                     		}			
 			}
 			echo "End of Stage Build AWS Infrastructure via Terraform"
-		 }
+		}
 	 }     
     }
 }
