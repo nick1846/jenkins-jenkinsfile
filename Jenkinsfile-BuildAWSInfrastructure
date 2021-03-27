@@ -7,7 +7,7 @@ pipeline {
         	steps {
                 	echo "Start of Stage Update Terraform Template"
 			echo "Updating.................................."
-			sh 'rm -rf Terraform_Template'
+			sh 'rm -rf *'
 			dir('Terraform_Template') {
 				git credentialsId: 'id_github', url: 'https://github.com/nick1846/terra-2-ansible-pre-installed-ami.git'
 			}
