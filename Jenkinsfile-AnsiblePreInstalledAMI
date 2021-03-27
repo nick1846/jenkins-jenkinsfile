@@ -8,7 +8,7 @@ pipeline {
                 	echo "Start of Stage Clone Packer Template"
 			echo "Cloning.................................."
 			dir('Packer_Template') {
-				git credentialsId: 'id_github', url: 'https://github.com/nick1846/packer-ansible-pre-installed-ami.git'
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/packer-pre-installed-ami.git'
 			}			
 			echo "End of Stage Clone Packer Template"
             }
@@ -20,7 +20,7 @@ pipeline {
 			echo "Creating................................."
           		withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) {
             			dir('Packer_Template') {                
-                    			sh ('/usr/local/bin/packer build -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET ansible_pre_installed.pkr.hcl')
+                    			sh ('/usr/local/bin/packer build -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET ansible_ami.pkr.hcl')
 				}
         		}
 			echo "End of stage Create AWS AMI using Packer"
