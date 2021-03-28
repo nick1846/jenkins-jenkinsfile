@@ -8,13 +8,13 @@ pipeline {
                 	echo "Start of Stage Clone Packer Template and Ansible Playbooks"
 			echo "Cloning.................................."
 			dir('Packer_Template') {
-				git credentialsId: 'id_github', url: 'https://github.com/nick1846/packer-awx-ami.git'
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/packer-pre-installed-ami.git'
 			}
 			dir('Linux_Users_Role') {	
-				git credentialsId: 'id_github', url: 'https://github.com/nick1846/linux-users-role.git'
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/ansible-linux-users.git'
 			}
 			dir('AWX_Configure_Tower') {	
-				git credentialsId: 'id_github', url: 'https://github.com/nick1846/awx-configure-tower.git'
+				git credentialsId: 'id_github', url: 'https://github.com/nick1846/ansible-awx-configure-tower.git'
 			}
 			echo "End of Stage Clone Packer Template and Ansible Playbooks"
             }
