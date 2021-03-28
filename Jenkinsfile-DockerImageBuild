@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo "Start of Stage Clone"
 				echo "Cloning......."
-				git credentialsId: 'id_github', url: 'git@github.com:nick1846/jenkins-dockerfile.git'
+				git credentialsId: 'id_github', url: 'git@github.com:nick1846/docker.git'
 				echo "End of Stage Clone"
             }
         }
