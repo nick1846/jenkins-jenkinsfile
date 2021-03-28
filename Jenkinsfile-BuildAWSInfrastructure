@@ -31,7 +31,9 @@ pipeline {
 			
 	stage('3-Update GitHub repository if terraform.tfstate changed') {
 		when {
-                	changeset "Terraform_Template/*"
+			anyOf {
+                		changeset "Terraform_Template/**"
+			}
                 }
         	steps {	
 			dir('Terraform_Template') {
