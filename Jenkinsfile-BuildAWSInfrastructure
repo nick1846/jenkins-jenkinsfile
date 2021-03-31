@@ -38,7 +38,7 @@ pipeline {
                        		sh '''
 								git add terraform.tfstate
 								git -c user.name="nick" -c user.email="nick.linuxedu@gmail.com" commit -m "terraform state update from Jenkins"              
-								git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/nick1846/terra-2-ansible-pre-installed-ami.git master
+								git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/nick1846/terra-3-ASG-ALB.git master
 							'''
                    		}	
 					}
