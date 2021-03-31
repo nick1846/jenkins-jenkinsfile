@@ -9,7 +9,7 @@ pipeline {
 				echo "Updating.................................."
 				sh 'rm -rf Terraform_Template'
 				dir('Terraform_Template') {
-					git credentialsId: 'id_github', url: 'https://github.com/nick1846/terra-2-ansible-pre-installed-ami.git'
+					git credentialsId: 'id_github', url: 'https://github.com/nick1846/terra-3-ASG-ALB.git'
 				}
 				echo "End of Stage Update Terraform Template"
 		}
