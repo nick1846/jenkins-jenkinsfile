@@ -1,0 +1,58 @@
+pipeline {
+    
+    agent any
+
+    stages {    
+    	stage('1-Update Terraform Template') {
+        	steps {
+                echo "Start of Stage Update Terraform Template"
+				echo "Updating.................................."
+				sh 'rm -rf Terraform_Template'
+				dir('Terraform_EKS') {
+					git credentialsId: 'id_github', url: 'https://github.com/nick1846/terra-6-EKS.git'
+				}
+				echo "End of Stage Update Terraform Template"
+		}
+	}
+			
+	stage('2-Build AWS Infrastructure via Terraform') {
+        	steps {	
+				echo "Start of Stage Build AWS Infrastructure via Terraform"
+				dir('Terraform_EKS') {
+         			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) {           				
+            			sh '''               				 
+               				terraform init
+               				terraform apply --auto-approve -var-file=values.tfvars -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET               				
+            			'''				
+				}
+			}
+		}
+	}	
+			
+	stage('3-Update GitHub repository if terraform.tfstate changed') {		
+        steps {	
+			script {
+				try {
+					dir('Terraform_EKS') {
+						withCredentials([usernamePassword(credentialsId: 'id_github_usr_psw', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                       		sh '''
+								git add terraform.tfstate
+								git -c user.name="nick" -c user.email="nick.linuxedu@gmail.com" commit -m "terraform state update from Jenkins"              
+								git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/nick1846/terra-6-EKS.git master
+							'''
+                   		}	
+					}
+				}
+				catch (err) {
+        			echo err.getMessage()
+           			echo "No changes!"
+				}
+			}
+			echo "End of Stage Build AWS Infrastructure via Terraform"
+		}
+	 }     
+    }
+}
+
+
+
