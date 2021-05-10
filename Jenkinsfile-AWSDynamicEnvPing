@@ -5,7 +5,7 @@ pipeline {
         stage('1-Clone Ansible playbooks to check AWS inventory') {
             steps {
                 echo "Start of Clone Ansible playbooks to check AWS inventory"
-		echo "Cloning......."
+		echo "Cloning........"
 		dir('Ansible_Dynamic_Inventory') {
 			git credentialsId: 'id_github', url: 'https://github.com/nick1846/ansible-dynamic-aws-inventory.git'
 		}				
