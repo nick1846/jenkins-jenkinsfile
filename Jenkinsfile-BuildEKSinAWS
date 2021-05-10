@@ -21,7 +21,7 @@ pipeline {
 				dir('Terraform_EKS') {
          			withCredentials([usernamePassword(credentialsId: 'id_aws', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')]) {           				
             			sh '''       
-						    bash replace.sh        				 
+						    bash replace.sh
                				terraform init
                				terraform apply --auto-approve -var-file=values.tfvars -var aws_access_key=$AWS_KEY -var aws_secret_key=$AWS_SECRET               				
             			'''				
