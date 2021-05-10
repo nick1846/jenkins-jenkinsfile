@@ -7,7 +7,7 @@ pipeline {
         	steps {
                 echo "Start of Stage Update Terraform Template"
 				echo "Updating.................................."
-				sh 'rm -rf Terraform_Template'
+				sh 'rm -rf Terraform_EKS'
 				dir('Terraform_EKS') {
 					git credentialsId: 'id_github', url: 'https://github.com/nick1846/terra-6-EKS.git'
 				}
